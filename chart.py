@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 class Chart:
-    def __init__(self, chart_type, df, x_col, y_col=None, figX=8, figY=4,bins=20):
+    def __init__(self, chart_type, df, x_col, pie_arr=[], y_col=None, figX=8, figY=4,bins=20):
         self.chart_type = chart_type.lower()
         self.figX = figX
         self.figY = figY
@@ -10,6 +10,7 @@ class Chart:
         self.x_col = x_col
         self.y_col = y_col
         self.bins=bins
+        self.pie_arr=pie_arr
 
     def make_chart(self):
         plt.figure(figsize=(self.figX, self.figY))
@@ -25,6 +26,8 @@ class Chart:
             self.__make_density_chart()
         elif self.chart_type == 'histogram':
             self.__make_histogram_chart()
+        elif self.chart_type == 'pie':
+            self.__make_pie_chart()
             
         plt.tight_layout()
         plt.show()
@@ -55,3 +58,9 @@ class Chart:
         plt.title(f'Histogram of {self.x_col}')
         plt.xlabel(self.x_col)
         plt.ylabel('Frequency')
+    
+    def __make_pie_chart(self):
+        # The autopct argument formats the numbers as percentages with one decimal place
+        self.pie_arr.plot(kind='pie', autopct='%1.1f%%')
+        plt.title(f'Pie Chart of {self.x_col}')
+        plt.ylabel('') # Keeps the side of the chart looking clean
